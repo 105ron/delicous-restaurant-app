@@ -113,6 +113,21 @@ __webpack_require__(1);
 
 var _bling = __webpack_require__(0);
 
+var _autocomplete = __webpack_require__(4);
+
+var _autocomplete2 = _interopRequireDefault(_autocomplete);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _autocomplete2.default)((0, _bling.$)('#address'), (0, _bling.$)('#lat'), '#$lng');
+
+/***/ }),
+/* 3 */,
+/* 4 */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (1:28)\n\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 1 | \u001b[39m\u001b[36mfunction\u001b[39m autocomplete(input latInput\u001b[33m,\u001b[39m lngInput) {\n \u001b[90m   | \u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 2 | \u001b[39m  console\u001b[33m.\u001b[39mlog({input\u001b[33m,\u001b[39m latInput\u001b[33m,\u001b[39m lngInput})\n \u001b[90m 3 | \u001b[39m}\n \u001b[90m 4 | \u001b[39m\u001b[0m\n");
+
 /***/ })
 /******/ ]);
 //# sourceMappingURL=App.bundle.js.map
