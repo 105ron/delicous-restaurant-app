@@ -7,7 +7,8 @@ mongoose.connection.on('error', (err) => {
   console.error(err.message);
 });
 
-require('./models/store');
+require('./models/Store');
+require('./models/User');
 
 // Start our app!
 const app = require('./app');
