@@ -8,9 +8,13 @@ const router = express.Router();
 
 router.get('/', catchErrors(storeController.getStores));
 
-router.get('/add', storeController.addStore);
+router.get('/account', authController.isLoggedIn, userController.account);
+
+router.get('/add', authController.isLoggedIn, storeController.addStore);
 
 router.get('/login', userController.loginForm);
+
+router.get('/logout', authController.logout);
 
 router.get('/register', userController.registerForm);
 
@@ -23,6 +27,8 @@ router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 router.get('/tags', catchErrors(storeController.getStoresByTag));
 
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
+
+router.post('/account', catchErrors(userController.updateAccount));
 
 router.post('/add',
   storeController.upload,
@@ -38,5 +44,7 @@ router.post('/register',
   userController.validateRegister,
   userController.register,
   authController.login);
+
+router.post('/login', authController.login);
 
 module.exports = router;
