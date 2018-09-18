@@ -83,6 +83,27 @@ exports.editStore = async (req, res) => {
   res.render('editStore', { store, title: `Edit ${store.name}` });
 };
 
+exports.mapPage = (req, res) => {
+  res.render('map', { title: 'map' });
+};
+
+exports.mapStores = async (req, res) => {
+  const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location: {
+      $near: {
+        $geometry: {
+          coordinates,
+          type: 'Point',
+        },
+        $maxDistance: 10000,
+      },
+    },
+  };
+  const stores = await Store.find(q).select('slug name description location photo').limit(10);
+  res.json(stores);
+};
+
 exports.searchStores = async (req, res) => {
   const stores = await Store
     .find({
@@ -96,7 +117,6 @@ exports.searchStores = async (req, res) => {
     })
     .limit(5);
   res.json(stores);
-
 };
 
 exports.updateStore = async (req, res) => {

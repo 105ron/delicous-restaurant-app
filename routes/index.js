@@ -18,6 +18,8 @@ router.get('/login', userController.loginForm);
 
 router.get('/logout', authController.logout);
 
+router.get('/map', storeController.mapPage);
+
 router.get('/register', userController.registerForm);
 
 router.get('/stores', catchErrors(storeController.getStores));
@@ -60,5 +62,7 @@ router.post('/login', authController.login);
 //
 
 router.get('/api/v1/search', catchErrors(storeController.searchStores));
+
+router.get('/api/v1/stores/near', catchErrors(storeController.mapStores));
 
 module.exports = router;

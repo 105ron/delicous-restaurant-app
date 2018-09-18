@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dompurify from 'dompurify';
 
 function searchResultsHTML(stores) {
   return stores.map(store => `
@@ -24,10 +25,11 @@ function typeAhead(search) {
       .then((res) => {
         if (res.data.length) {
           const html = searchResultsHTML(res.data);
-          searchResults.innerHTML = html;
-          return;
+          searchResults.innerHTML = dompurify.sanitize(html);
         } else {
-          searchResults.innerHTML = `<div class="search__result">No results for ${this.value} found!</div>`;
+          searchResults.innerHTML = dompurify.sanitize(
+            `<div class="search__result">No results for ${this.value} found!</div>`,
+          );
         }
       })
       .catch((err) => {
