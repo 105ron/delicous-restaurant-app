@@ -10,6 +10,8 @@ router.get('/', catchErrors(storeController.getStores));
 
 router.get('/account', authController.isLoggedIn, userController.account);
 
+router.get('/account/reset/:token', catchErrors(authController.reset));
+
 router.get('/add', authController.isLoggedIn, storeController.addStore);
 
 router.get('/login', userController.loginForm);
@@ -29,6 +31,12 @@ router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 router.post('/account', catchErrors(userController.updateAccount));
+
+router.post('/account/forgot', catchErrors(authController.forgot));
+
+router.post('/account/reset/:token',
+  authController.confirmedPasswords,
+  catchErrors(authController.update));
 
 router.post('/add',
   storeController.upload,
