@@ -35,6 +35,8 @@ router.get('/tags', catchErrors(storeController.getStoresByTag));
 
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
+router.get('/top', catchErrors(storeController.getTopStores));
+
 router.post('/account', catchErrors(userController.updateAccount));
 
 router.post('/account/forgot', catchErrors(authController.forgot));
