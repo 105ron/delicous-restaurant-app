@@ -8,7 +8,7 @@ const mapOptions = {
 
 function loadPlaces(map, lat = 43.2, lng = -79.8) {
   axios.get(`/api/v1/stores/near?lat=${lat}&lng=${lng}`)
-    .then(res => {
+    .then((res) => {
       const places = res.data;
       if (!places.length) return;
 
@@ -21,7 +21,8 @@ function loadPlaces(map, lat = 43.2, lng = -79.8) {
         const marker = new google.maps.Marker({ map, position, });
         marker.place = place;
         return marker;
-      });
+      })
+        .catch(err => console.log(err));
 
       markers.forEach(marker => marker.addListener('click', function() {
         const html = `
