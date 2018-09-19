@@ -2,7 +2,8 @@ const passport = require('passport');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const promisify = require('es6-promisify');
-const mail = require('../handlers/mail');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const User = mongoose.model('User');
 
@@ -24,12 +25,14 @@ exports.forgot = async (req, res) => {
   user.resetPasswordExpires = Date.now() + 3600000;
   await user.save();
   const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
-  mail.send({
-    resetURL,
-    user,
-    fileName: 'password-reset',
-    subject: 'Password Reset',
-  });
+  const msg = {
+  to: req.body.email,
+  from: 'test@example.com',
+  subject: 'Sending with SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+};
+sgMail.send(msg);
   req.flash('success', 'You have have been emailed a password reset link');
   res.redirect('/login');
 };

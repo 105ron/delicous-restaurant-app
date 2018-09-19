@@ -1,8 +1,9 @@
-const nodemailer = require('nodemailer');
 const pug = require('pug');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
-const promisify = require('es6-promisify');
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function generateHTML(filename, options = {}) {
   const html = pug.renderFile(`${__dirname}/../views/email/${filename}.pug`, options);
@@ -10,25 +11,15 @@ function generateHTML(filename, options = {}) {
   return inlined;
 }
 
-const transport = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-});
-
-exports.send= async (options) => {
+exports.send = async (options) => {
   const html = generateHTML(options.fileName, options);
   const text = htmlToText.fromString(html);
-  const mailOptions = {
+  const msg = {
     html,
     text,
-    from: 'Rhys <noreply@105ron.com>',
     to: options.user.email,
+    from: 'Rhys <noreply@105ron.com>',
     subject: options.subject,
   };
-  const sendMail = promisify(transport.sendMail, transport);
-  return sendMail(mailOptions);
-}
+  sgMail.send(msg);
+};
